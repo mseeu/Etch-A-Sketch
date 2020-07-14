@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<head>
+    <title>Page Title</title>
+    <meta charset="UTF-8"/>
+    <h1>  Etch-A-Sketch </h1>
+<style>
+
+h1 {
+  font-family: Helvetica, sans-serif;
+  font-size: 95;
+  text-align: center;
+}
+
+body {
+  background-color: rgb(248, 248, 223);
+}
+
+button {
+  margin-left: 5px;
+  margin-right: 10px;
+  margin-top: 5px;
+  font-size: 21px;
+  text-align: center;
+  border-radius: 10px;
+  display: inline-block;
+  position: center;
+}
+
+.buttons {
+  position: relative;
+  top: 10px;
+  height: 0px;
+  width: 700px;
+  margin: auto;
+  padding: 0;
+  margin-bottom: 80px;
+}
+
+#container {
+  position: relative;
+
+  font-size: 0;
+  margin: auto;
+  height: 700px;
+  width: 700px;
+  margin-bottom: 80px;
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(78, 50, 50);
+  border-width: 15px;
+  border-style: solid;
+  border-radius: 15px;
+}
+
+.gridinha {
+  display: inline-block;
+}
+
+#newGrid {
+  margin-left: 0px;
+  margin-top: 0px;
+}
+
+</style>
+</head>
+
+<body>
+  <div class="buttons">
+    <button id="newGrid"> New Grid </button>
+    <button id="reset"> Reset </button>
+    <button id="randomColor"> Random Color </button>
+    <button id="black"> Black </button>
+    <button id="rainbow"> Rainbow </button>
+    <button id="eraser"> Eraser </button>
+  </div>
+
+ <div id="container"> </div>
+ 
+<script>
+//creates first grid
+function createGrid(squares) {
+  let container = document.querySelector('#container');
+  for (let unit = 0; unit < squares * squares; unit++) {
+    let grid = document.createElement('div');
+    grid.classList.add('gridinha');
+    grid.id = "grid-" + unit;
+    grid.style.width = (700 / squares + "px");
+    grid.style.height = (700 / squares + "px");
+    grid.addEventListener('mouseover', function(event) {
+      grid.style.backgroundColor = 'black';
+    })
+    container.appendChild(grid);
+
+  }
+}
+
+createGrid(16);
+
+// creates personalized grid
+function changeGrid() {
+  let squares = (Number(prompt("Insert number of squares")));
+  createGrid(squares);
+}
+
+// button "NewGrid"
+let newGrid = document.querySelector('#newGrid');
+newGrid.addEventListener('click', changeGrid);
+
+
+// random color
+function newColors() {
+  let rgb = (r, g, b) =>
+    `rgb(${Math.floor(r)},${Math.floor(g)},${Math.floor(b)})`;
+  let randomColor = [rgb(Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255))];
+
+  rgbgrid = document.querySelectorAll('.gridinha');
+  rgbgrid.forEach((gridinha) => gridinha.addEventListener('mouseenter', function(event) {
+    gridinha.style.backgroundColor = randomColor;
+  }))
+}
+// button "Random Color"
+let randomColor = document.querySelector('#randomColor');
+randomColor.addEventListener('click', newColors);
+
+// function to Rainbow
+function rColors() {
+  document.querySelectorAll('.gridinha').forEach(item => {
+    item.addEventListener('mouseenter', event => {
+      let ranColor = "rgb( " + Math.floor(Math.random() * 255) + ", " + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + ")";
+      item.style.backgroundColor = ranColor;
+    })
+  })
+}
+
+// button "Rainbow"
+let rainbowButton = document.querySelector('#rainbow');
+rainbowButton.addEventListener('click', rColors);
+
+
+
+// Clear the grid letting it ready for the new imput
+function clearGrid(grid) {
+  clean = document.querySelectorAll('.gridinha');
+  clean.forEach((gridinha) => gridinha.remove());
+}
+
+// button "Reset"
+let reset = document.querySelector('#reset');
+reset.addEventListener('click', clearGrid);
+
+//get back the black backgroud color
+function backBlack() {
+  let bb = 'black';
+  rgbgrid = document.querySelectorAll('.gridinha');
+  rgbgrid.forEach((gridinha) => gridinha.addEventListener('mouseenter', function(event) {
+    gridinha.style.backgroundColor = bb;
+  }))
+}
+
+//button "Black"
+let blackButton = document.querySelector('#black');
+blackButton.addEventListener('click', backBlack);
+
+//eraser function
+function eraser() {
+  let backColor = 'white';
+  borracha = document.querySelectorAll('.gridinha');
+  borracha.forEach((gridinha) => gridinha.addEventListener('mouseenter', function(event) {
+    gridinha.style.backgroundColor = backColor;
+  }))
+}
+// button "Eraser"
+let eraserButton = document.querySelector('#eraser');
+eraserButton.addEventListener('click', eraser);
+
+</script>
+</body>
